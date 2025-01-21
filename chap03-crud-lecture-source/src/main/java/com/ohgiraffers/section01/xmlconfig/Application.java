@@ -45,7 +45,7 @@ public class Application {
         Map<String, String> parameter = new HashMap<>();
         parameter.put("code", code);
 
-        return null;
+        return parameter;
     }
 
     //사용자로부터 추가할 신규 메뉴 정보를 Scanner를 통해 입력받는 메서드

@@ -23,14 +23,14 @@ public class Template {
 
         /* 필기. SqlSessionFactoryBuilder의 생명 주기:
         * SqlSessionFactoryBuilder를 SqlSession을 생성한 후에도 유지할 필요는 없다.
-        * (주 임무가 SqlSessionFactory를 짓기만 하면 되기 때문에 공장 거설 후 빠지면 된다.)
+        * (주 임무가 SqlSessionFactory를 짓기만 하면 되기 때문에 공장 건설 후 빠지면 된다.)
         * 따라서 '메서드 스코프'로 만든다.
         * 여러개의 SqlSessionFactory를 빌드하기 위해 재사용할 상황도 있겠지만,
         * 왠만해서는 한 번 Factory를 빌드한 후에 유지하지 않는 것이 가장 좋다.
         * */
         if(sqlSessionFactory == null) {
 
-            String resourcesPath = "mybatis-config.xml";
+            String resourcesPath = "com/ohgiraffers/section01/xmlconfig/mybatis-config.xml";
             try {
                 InputStream inputStream = Resources.getResourceAsStream(resourcesPath);
                 sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);

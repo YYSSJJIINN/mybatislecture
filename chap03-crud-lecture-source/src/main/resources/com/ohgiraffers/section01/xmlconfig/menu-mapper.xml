@@ -3,4 +3,105 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MenuMapper">
+
+<!--    SQL 쿼리를 통해 조회된 결과 집합의 컬럼과 Java의 DTO 필드를 매핑시키기 위한 설정이다.
+config 파일에서 alias 설정을 추가하면 type 속성에 full-class명을 입력하지 않아도 된다.-->
+<!--    <resultMap id="menuResultMap" type="com.ohgiraffers.section01.xmlconfig.MenuDTO">-->
+    <resultMap id="menuResultMap" type="MenuDTO">
+        <id property="code" column="menu_code"/>
+        <result property="name" column="menu_name"/>
+        <result property="price" column="menu_price"/>
+        <result property="categoryCode" column="category_code"/>
+        <result property="orderableStatus" column="orderable_status"/>
+    </resultMap>
+
+    <select id="selectAllMenu" resultMap="menuResultMap">
+        select
+            m.menu_code,
+            m.menu_name,
+            m.menu_price,
+            m.category_code,
+            m.orderable_status
+        from
+            tbl_menu m
+        where
+            m.orderable_status = 'Y'
+        order by
+            m.menu_code
+    </select>
+
+    <select id="selectMenuByCode" parameterType="_int" resultMap="menuResultMap">
+        select
+            m.menu_code,
+            m.menu_name,
+            m.menu_price,
+            m.category_code,
+            m.orderable_status
+        from
+            tbl_menu m
+        where
+            m.orderable_status = 'Y' and
+            menu_code = #{code}
+    </select>
+    <!--
+        설명. MyBatis 기본 자료형(Primitive Type) 및 Type Alias 정보
+         MyBatis는 기본적으로 Java의 Primitive Type과 Wrapper Class를 지원하며,
+         아래의 Type Alias를 사용하거나 Java 타입 이름을 직접 사용할 수 있다.
+         =========================================================================
+         1. Primitive Type (기본 자료형)과 매핑되는 Type Alias
+            _byte    : byte
+            _short   : short
+            _int     : int
+            _long    : long
+            _float   : float
+            _double  : double
+            _boolean : boolean
+         =========================================================================
+         2. Wrapper Class와 매핑되는 Type Alias
+            byte     : java.lang.Byte
+            short    : java.lang.Short
+            int      : java.lang.Integer
+            long     : java.lang.Long
+            float    : java.lang.Float
+            double   : java.lang.Double
+            boolean  : java.lang.Boolean
+            string   : java.lang.String
+         =========================================================================
+         - resultType 또는 parameterType에 Primitive Type Alias(ex: _int)를 사용하지 않아도
+           MyBatis는 이를 명확히 해석하므로, int와 같은 Java 기본 자료형도 동작한다.
+         - 명시적으로 Type Alias를 사용하는 것은 가독성을 높이고,
+           코드와 MyBatis 동작에 대한 의도를 명확히 전달하는 데 유용하다.
+    -->
+
+    <insert id="registMenu" parameterType="MenuDTO">
+        insert into tbl_menu(
+            menu_name,
+            menu_price,
+            category_code,
+            orderable_status
+        ) values (
+            #{ name },
+            #{ price },
+            #{ categoryCode },
+            'Y'
+        )
+    </insert>
+
+    <update id="modifyMenu" parameterType="MenuDTO">
+        update
+            tbl_menu
+        set
+            menu_name = #{ name },
+            menu_price = #{ price},
+            category_code = #{ categoryCode }
+        where
+            menu_code = #{ code }
+    </update>
+
+    <delete id="deleteMenu" parameterType="_int">
+        delete from
+            tbl_menu
+        where
+            menu_code = #{ code }
+    </delete>
 </mapper>
