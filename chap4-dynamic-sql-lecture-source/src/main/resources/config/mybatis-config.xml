@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 외부 properties 파일에서 DB Connection정보를 가져오기 (resources 디렉토리 기준 경로) -->
+    <properties resource="config/connection-config.properties"/>
+    <typeAliases>
+        <typeAlias type="com.ohgiraffers.common.MenuDTO" alias="MenuDTO"/>
+        <typeAlias type="com.ohgiraffers.common.SearchCriteria" alias="SearchCriteria"/>
+    </typeAliases>
+    <environments default="dev">
+        <environment id="dev">
+            <transactionManager type="JDBC"/>
+                <dataSource type="POOLED">
+                    <property name="driver" value="${driver}"/>
+                    <property name="url" value="${url}"/>
+                    <property name="username" value="${username}"/>
+                    <property name="password" value="${password}"/>
+                </dataSource>
+        </environment>
+    </environments>
+    <!-- SQL Mapper의 위치를 package 기준으로도 설정할 수 있다. -->
+    <mappers>
+        <package name="com.ohgiraffers.section01.xml"/>
+        <package name="com.ohgiraffers.section02.provider"/>
+    </mappers>
+</configuration>
